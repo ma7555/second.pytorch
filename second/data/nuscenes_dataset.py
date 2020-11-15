@@ -605,7 +605,7 @@ def _fill_trainval_infos(nusc,
     for sample in prog_bar(nusc.sample):
         lidar_token = sample["data"]["LIDAR_TOP"]
         cam_front_token = sample["data"]["CAM_FRONT"]
-        sd_rec = nusc.get('sample_data', sample['data']["LIDAR_TOP"])
+        sd_rec = nusc.get('sample_data', lidar_token)
         cs_record = nusc.get('calibrated_sensor',
                              sd_rec['calibrated_sensor_token'])
         pose_record = nusc.get('ego_pose', sd_rec['ego_pose_token'])
@@ -634,7 +634,6 @@ def _fill_trainval_infos(nusc,
         l2e_r_mat = Quaternion(l2e_r).rotation_matrix
         e2g_r_mat = Quaternion(e2g_r).rotation_matrix
 
-        sd_rec = nusc.get('sample_data', sample['data']["LIDAR_TOP"])
         sweeps = []
         while len(sweeps) < max_sweeps:
             if not sd_rec['prev'] == "":
